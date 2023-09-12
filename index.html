@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js" integrity="sha512-jtr9/t8rtBf1Sv832XjG1kAtUECQCqFnTAJWccL8CSC82VGzkPPih8rjtOfiiRKgqLXpLA1H/uQ/nq2bkHGWTQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+  <script src="js/jquery-3.6.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/device-uuid@1.0.4/lib/device-uuid.js"></script>
+  <link rel="icon" type="image/png" href="FACEBOOK TOOLS.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <title>เครื่องมือการตลาด</title>
+</head>
+
+<body>
+  <div id="page-overlay" class="visible incoming">
+    <div class="loader-wrapper-outer">
+      <div class="loader-wrapper-inner">
+        <div class="lds-double-ring">
+          <div></div>
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="margin-top:120px;margin-bottom:150px;">
+
+    <div class="card">
+      <div class="card-header text-light text-center bg-primary">
+        <h4>
+        
+
+          เครื่องมือการตลาด Facebook
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="form-group text-center">
+          <h3>สถานะเฟซ <span id="status"></span></h3>
+        </div>
+        <div class="form-group text-center">
+          <h3>ใช้งานได้อีก <span id="exp"></span> วัน</h3>
+        </div>
+        <div class="form-group text-center">
+          <h4>ต่ออายุได้ที่ @marketingtools</h4>
+        </div>
+        <div class="form-group text-center">
+          <small>เลขเครื่อง: <p id="hwid"></p></small>
+        </div>
+        <hr>
+        <div class="form-group text-center">
+          <button class="btn btn-danger" data-toggle="modal" data-target="#seting"> <i class="fa fa-cog"
+              aria-hidden="true"></i>
+            จัดการกลุ่มเป้าหมาย</button>
+
+           
+        </div>
+       
+        <div class="modal fade" id="add_fb" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-cog"
+                aria-hidden="true"></i> จัดการบัญชีเฟซ</h5>
+
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+       
+
+              <div class="form-group">
+                <label for="cookie">คุกกี้</label>
+                <input type="text" id="cookie" name="cookie" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button"  id="save_fb" class="btn btn-danger" >บันทึก</button>
+
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+        <div class="modal fade" id="seting" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-cog"
+                  aria-hidden="true"></i> ตั้งค่ากลุ่มเป้าหมาย</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <div class="overflow-auto p-3 mb-12 mb-md-0 mr-md-12"
+                    style="max-width: 100%; max-height: 500px;" id="row_history">
+
+
+               
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th class="text-center">ชื่อกลุ่มเป้าหมาย</th>
+                    <th class="text-center">จัดการ</th>
+                  </tr>
+                </thead>
+                  <tbody  id="body_seting">
+                  
+                </tbody>
+                </table>
+              </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group text-center">
+          <h4 class="text-danger">ฟรีกลุ่ม 1700+ <a target="_blanck"
+              href="https://sad-aryabhata.103-246-18-6.plesk.page/">คลิ๊ก</a></h4>
+        </div> -->
+        <div class="row">
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="commentGroup.html">
+              <div class="card">
+                <img class="card-img-top" src="img/comment.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">คอมเม้นในกลุ่ม</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="postGroup.html">
+              <div class="card">
+                <img class="card-img-top" src="img/post.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">โพสต์ลงกลุ่ม</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="scangroupfree.html">
+              <div class="card">
+                <img class="card-img-top" src="img/scan.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">แสกนกลุ่มโพสต์ฟรี</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="keywordgroup.html">
+              <div class="card">
+                <img class="card-img-top" src="img/keyword.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">คีย์เวิร์ดกลุ่ม</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="getsharegroup.html">
+              <div class="card">
+                <img class="card-img-top" src="img/scanshare.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">คีย์เวิร์ดกลุ่ม</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="dunpost.html">
+              <div class="card">
+                <img class="card-img-top" src="img/dunpost.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">ดันโพสต์</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="broadcast.html">
+              <div class="card">
+                <img class="card-img-top" src="img/broadcast.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">บรอดแคชเพจ</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a  target="_blank" href="postpage.html">
+              <div class="card">
+                <img class="card-img-top" src="img/postpage.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">โพสต์กลุ่ม (ใช้เพจโปรไฟล์โพสต์)</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="joingroup.html">
+              <div class="card">
+                <img class="card-img-top" src="img/joingroup.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">เข้ากลุ่ม (ส่วนตัว)</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6" style="padding: 5px;">
+            <a target="_blank" href="createpage.html">
+              <div class="card">
+                <img class="card-img-top" src="img/create_page_classic.png" height="300" width="100" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center"> สร้างเพจรูปแบบเก่า</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</body>
+<script src="js/fingerprint.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+</html>
